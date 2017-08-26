@@ -122,7 +122,9 @@ $days_until_deadline = null;
 
                     <label class="checkbox">
                         <!--добавить сюда аттрибут "checked", если переменная $show_complete_tasks равна единице-->
-                        <input id="show-complete-tasks" class="checkbox__input visually-hidden" type="checkbox">
+                        <input id="show-complete-tasks" class="checkbox__input visually-hidden" type="checkbox"
+                            <?php if ($show_complete_tasks == 1): ?> checked <?php endif; ?>
+                        >
                         <span class="checkbox__text">Показывать выполненные</span>
                     </label>
                 </div>
@@ -130,18 +132,23 @@ $days_until_deadline = null;
                 <table class="tasks">
 
                     <!--показывать следующий тег <tr/>, если переменная равна единице-->
-                    <tr class="tasks__item task task--completed">
-                        <td class="task__select">
-                            <label class="checkbox task__checkbox">
-                                <input class="checkbox__input visually-hidden" type="checkbox" checked>
-                                <span class="checkbox__text">Записаться на интенсив "Базовый PHP"</span>
-                            </label>
-                        </td>
-                        <td class="task__date">10.04.2017</td>
 
-                        <td class="task__controls">
-                        </td>
-                    </tr>
+                    <?php if ($show_complete_tasks == 1): ?>
+
+                        <tr class="tasks__item task task--completed">
+                            <td class="task__select">
+                                <label class="checkbox task__checkbox">
+                                    <input class="checkbox__input visually-hidden" type="checkbox" checked>
+                                    <span class="checkbox__text">Записаться на интенсив "Базовый PHP"</span>
+                                </label>
+                            </td>
+                            <td class="task__date">10.04.2017</td>
+
+                            <td class="task__controls">
+                            </td>
+                        </tr>
+
+                    <?php endif; ?>
 
                     <tr class="tasks__item task">
                         <td class="task__select">
