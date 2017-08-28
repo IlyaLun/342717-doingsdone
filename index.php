@@ -13,7 +13,7 @@ $current_ts = strtotime('now midnight'); // текущая метка време
 $date_deadline = date("d.m.Y", $task_deadline_ts);
 
 // в эту переменную запишите кол-во дней до даты задачи
-$days_until_deadline = ($task_deadline_ts - $current_ts)/86400;
+$days_until_deadline = floor(($task_deadline_ts - $current_ts)/86400);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -121,7 +121,6 @@ $days_until_deadline = ($task_deadline_ts - $current_ts)/86400;
                     </div>
 
                     <label class="checkbox">
-                        <!--добавить сюда аттрибут "checked", если переменная $show_complete_tasks равна единице-->
                         <input id="show-complete-tasks" class="checkbox__input visually-hidden" type="checkbox"
                             <?php if ($show_complete_tasks == 1): ?> checked <?php endif; ?>
                         >
@@ -130,8 +129,6 @@ $days_until_deadline = ($task_deadline_ts - $current_ts)/86400;
                 </div>
 
                 <table class="tasks">
-
-                    <!--показывать следующий тег <tr/>, если переменная равна единице-->
 
                     <?php if ($show_complete_tasks == 1): ?>
 
@@ -159,7 +156,7 @@ $days_until_deadline = ($task_deadline_ts - $current_ts)/86400;
                         </td>
 
                         <td class="task__date">
-                            <?php print $date_deadline ?>
+                            <?= $date_deadline ?>
                         </td>
 
                         <td class="task__controls">
