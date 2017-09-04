@@ -60,6 +60,22 @@ $tasks = [
     ]
 ];
 
+function getCountTask($list, $category)
+{
+    $result = 0;
+    if ($category == 'Все') {
+        $result = count($list);
+    } else {
+        foreach ($list as $key => $value) {
+            if ($value['category'] == $category) {
+                $result++;
+            }
+        }
+
+    }
+    return $result;
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -110,7 +126,7 @@ $tasks = [
 
                             <li class="main-navigation__list-item <?php if ($key == 0): ?> main-navigation__list-item--active" <?php endif; ?>">
                             <a class="main-navigation__list-item-link href=" #"><?= $value ?></a>
-                            <span class="main-navigation__list-item-count"></span>
+                            <span class="main-navigation__list-item-count"><?= getCountTask($tasks, $value) ?></span>
                             </li>
 
                         <?php endforeach; ?>
