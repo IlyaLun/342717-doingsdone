@@ -164,7 +164,8 @@ $tasks = [
                 <table class="tasks">
                     <?php foreach ($tasks as $key => $value): ?>
                         <?php if (!$value['done'] || $show_complete_tasks == 1): ?>
-                            <tr class="tasks__item task <?php if ($value['done'] == 1): ?> task--completed <?php endif; ?> <?php if (strtotime($value['deadline']) <= $current_ts || $value['deadline'] != 'Нет' || !$value['done']): ?> task--important <?php endif; ?>">
+                            <tr class="tasks__item task <?php if ($value['done'] == 1): ?> task--completed <?php endif; ?>
+                            <?php if (strtotime($value['deadline']) <= $current_ts || $value['deadline'] != 'Нет' || !$value['done']): ?> task--important <?php endif; ?>">
                                 <td class="task__select">
                                     <label class="checkbox task__checkbox">
                                         <input class="checkbox__input visually-hidden"
