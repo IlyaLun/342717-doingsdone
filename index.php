@@ -62,9 +62,9 @@ $tasks = [
 
 require_once 'functions.php';
 
-$page_content = renderTemplate('templates/index.php', ['tasks' => $tasks]);
+$page_content = renderTemplate('templates/index.php', ['tasks' => $tasks, 'show_complete_tasks' => $show_complete_tasks, 'current_ts' => $current_ts]);
 
-$layout_content = renderTemplate('template/layout.php', ['content' => $page_content]);
+$layout_content = renderTemplate('templates/layout.php', ['tasks' => $tasks, 'categories' => $categories, 'content' => $page_content, 'title' => 'Дела в порядке!']);
 
 print ($layout_content);
 

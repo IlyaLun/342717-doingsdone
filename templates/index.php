@@ -46,7 +46,7 @@
                     <label class="checkbox task__checkbox">
                         <input class="checkbox__input visually-hidden"
                                type="checkbox" <?php if ($value['done'] == 1): ?> checked <?php endif; ?>>
-                        <span class="checkbox__text"><?= $value['task']; ?></span>
+                        <span class="checkbox__text"><?= htmlspecialchars($value['task']); ?></span>
                     </label>
                 </td>
 
@@ -57,7 +57,7 @@
                 <td class="task__controls">
 
                     <button class="expand-control" type="button"
-                            name="button"><?= $value['task']; ?></button>
+                            name="button"><?= htmlspecialchars($value['task']); ?></button>
 
                     <ul class="expand-list hidden">
                         <li class="expand-list__item">
