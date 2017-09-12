@@ -60,14 +60,14 @@ $tasks = [
     ]
 ];
 
-if (isset($_GET['id']) && !array_key_exists(intval($_GET['id']), $categories)) {
+if (isset($_GET['category']) && !array_key_exists(intval($_GET['category']), $categories)) {
     http_response_code(404);
 }
 
 $tasks_list = [];
 
 foreach ($tasks as $key => $value) {
-    if ($categories[intval($_GET['id'])] == 'Все' || $categories[intval($_GET['id'])] == $value['category']) {
+    if ($categories[intval($_GET['category'])] == 'Все' || $categories[intval($_GET['category'])] == $value['category']) {
         $tasks_list[] = $value;
     }
 }
