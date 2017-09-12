@@ -44,8 +44,8 @@
 
                         <?php foreach ($categories as $key => $value): ?>
 
-                            <li class="main-navigation__list-item <?php if ($key == 0): ?> main-navigation__list-item--active" <?php endif; ?>">
-                            <a class="main-navigation__list-item-link href=" #"><?= $value ?></a>
+                            <li class="main-navigation__list-item <?php if ($key == $_GET['id']): ?> main-navigation__list-item--active" <?php endif; ?>">
+                            <a class="main-navigation__list-item-link" href="/index.php<?= "?id=$key" ?>"><?= $value ?></a>
                             <span class="main-navigation__list-item-count"><?= getCountTask($tasks, $value) ?></span>
                             </li>
 

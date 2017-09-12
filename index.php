@@ -60,9 +60,21 @@ $tasks = [
     ]
 ];
 
+if (isset($_GET['id']) && !array_key_exists(intval($_GET['id']), $categories)) {
+    http_response_code(404);
+}
+
+$tasks_list = [];
+
+foreach ($tasks as $key => $value) {
+    if ($categories[intval($_GET['id'])] == 'Все' || $categories[intval($_GET['id'])] == $value['category']) {
+        $tasks_list[] = $value;
+    }
+}
+
 require_once 'functions.php';
 
-$page_content = renderTemplate('templates/index.php', ['tasks' => $tasks, 'show_complete_tasks' => $show_complete_tasks, 'current_ts' => $current_ts]);
+$page_content = renderTemplate('templates/index.php', ['tasks' => $tasks_list, 'show_complete_tasks' => $show_complete_tasks, 'current_ts' => $current_ts]);
 
 $layout_content = renderTemplate('templates/layout.php', ['tasks' => $tasks, 'categories' => $categories, 'content' => $page_content, 'title' => 'Дела в порядке!']);
 
