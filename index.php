@@ -72,11 +72,53 @@ foreach ($tasks as $key => $value) {
     }
 }
 
+$errors = [];
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if (!empty($_POST)) {
+        $fields = [
+            'task',
+            'deadline',
+            'category'
+        ];
+        foreach ($fields as $field) {
+            if (empty($_POST[$field])) {
+                $errors[] = $field;
+            } else {
+                if ($field == 'deadline') {
+                    if ($_POST[$field] !== date('d.m.Y', strtotime($_POST[$field]))) {
+                        $errors[] = $field;
+                    }
+                }
+            }
+        }
+        if (empty($errors)) {
+            if ($_FILES[$preview]['error'] == UPLOAD_ERR_OK) {
+                $file_name = $_FILES['preview']['name'];
+                $file_path = __DIR__ . '/';
+                $file_transfer - move_uploaded_file($_FILES['preview']['tmp_name'], $file_path . $file_name);
+            }
+            $new_task = [
+                'task' => $_POST['task'],
+                'deadline' => $_POST['deadline'],
+                'category' => $_POST['category'],
+                'done' => false
+            ];
+            array_unshift($tasks, $new_task);
+        }
+    }
+};
+
 require_once 'functions.php';
+
+$form = '';
+if (isset($_GET['add'])) {
+    $form = renderTemplate('templates/form.php', []);
+}
 
 $page_content = renderTemplate('templates/index.php', ['tasks' => $tasks_list, 'show_complete_tasks' => $show_complete_tasks, 'current_ts' => $current_ts]);
 
-$layout_content = renderTemplate('templates/layout.php', ['tasks' => $tasks, 'categories' => $categories, 'content' => $page_content, 'title' => 'Дела в порядке!']);
+$layout_content = renderTemplate('templates/layout.php', ['form' => $form, 'tasks' => $tasks, 'categories' => $categories, 'content' => $page_content, 'title' => 'Дела в порядке!']);
 
 print ($layout_content);
 
