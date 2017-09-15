@@ -98,23 +98,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $file_path = __DIR__ . '/';
                 $file_transfer - move_uploaded_file($_FILES['preview']['tmp_name'], $file_path . $file_name);
             }
-            $new_task = [
+            $add_task = [
                 'task' => $_POST['task'],
                 'deadline' => $_POST['deadline'],
                 'category' => $_POST['category'],
                 'done' => false
             ];
-            array_unshift($tasks, $new_task);
+            array_unshift($tasks, $add_task);
         }
     }
 };
 
 require_once 'functions.php';
 
-$form = '';
-if (isset($_GET['add'])) {
-    $form = renderTemplate('templates/form.php', []);
+
+if (isset($_GET['add']) || !empty($errors)) {
+    $form = renderTemplate('templates/form.php', ['categories' => $categories, 'form_error' => $errors]);
 }
+else {
+    $form = '';
+}
+
 
 $page_content = renderTemplate('templates/index.php', ['tasks' => $tasks_list, 'show_complete_tasks' => $show_complete_tasks, 'current_ts' => $current_ts]);
 

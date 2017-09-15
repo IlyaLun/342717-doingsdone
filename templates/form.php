@@ -3,26 +3,36 @@
 
     <h2 class="modal__heading">Добавление задачи</h2>
 
-    <form class="form" action="index.html" method="post">
+    <form class="form" action="/../index.php" method="POST" enctype="multipart/form-data">
         <div class="form__row">
             <label class="form__label" for="name">Название <sup>*</sup></label>
-
-            <input class="form__input" type="text" name="name" id="name" value="" placeholder="Введите название">
+            <span class='error-massage'><?php if (in_array('task', $form_error)): ?>Поле заполнено неверно<?php endif; ?>
+                </span>
+            <input class="form__input <?php if (in_array('task', $form_error)): ?>form__input--error<?php endif; ?>"
+                   type="text" name="task" id="name" value="<?= htmlspecialchars($_POST['task']) ?>"
+                   placeholder="Введите название">
         </div>
 
         <div class="form__row">
             <label class="form__label" for="project">Проект <sup>*</sup></label>
+            <span class='error-massage'><span
+                        class='form__error'><?php if (in_array('category', $form_error)): ?>Поле заполнено неверно<?php endif; ?>
+                    </span>
+            <select class="form__input form__input--select <?php if (in_array('category', $form_error)): ?>form__input--error<?php endif; ?>"name="category" id="project">
 
-            <select class="form__input form__input--select" name="project" id="project">
-                <option value="">Входящие</option>
+                <?php foreach ($categories as $key => $value) : ?>
+                    <?php if ($value != 'Все') : ?>
+                        <option value="<?= $value ?>" <?php if ($_POST['category'] == $value): ?>selected<?php endif; ?>''><?= $value ?></option>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+
             </select>
         </div>
 
         <div class="form__row">
             <label class="form__label" for="date">Дата выполнения <sup>*</sup></label>
-
-            <input class="form__input form__input--date" type="text" name="date" id="date" value=""
-                   placeholder="Введите дату в формате ДД.ММ.ГГГГ">
+            <span  class='error-massage'><?php if (in_array('deadline', $form_error)): ?>Поле заполнено неверно<?php endif; ?></span>
+            <input class="form__input form__input--date <?php if (in_array('deadline', $form_error)): ?>form__input--error<?php endif; ?>" type="text" name="deadline" id="date" value="<?=htmlspecialchars($_POST['deadline'])?>" placeholder="Введите дату в формате ДД.ММ.ГГГГ">
         </div>
 
         <div class="form__row">
