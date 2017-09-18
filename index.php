@@ -66,12 +66,6 @@ if (isset($_GET['category']) && !array_key_exists(intval($_GET['category']), $ca
 
 $tasks_list = [];
 
-foreach ($tasks as $key => $value) {
-    if ($categories[intval($_GET['category'])] == 'Все' || $categories[intval($_GET['category'])] == $value['category']) {
-        $tasks_list[] = $value;
-    }
-}
-
 $errors = [];
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -119,8 +113,13 @@ else {
     $form = '';
 }
 
+foreach ($tasks as $key => $value) {
+    if ($categories[intval($_GET['category'])] == 'Все' || $categories[intval($_GET['category'])] == $value['category']) {
+        $tasks_list[] = $value;
+    }
+}
 
-$page_content = renderTemplate('templates/index.php', ['tasks' => $tasks_list, 'show_complete_tasks' => $show_complete_tasks, 'current_ts' => $current_ts]);
+$page_content = renderTemplate('templates/index.php', ['tasks' => $tasks_list, 'categories' => $categories, 'show_complete_tasks' => $show_complete_tasks, 'current_ts' => $current_ts]);
 
 $layout_content = renderTemplate('templates/layout.php', ['form' => $form, 'tasks' => $tasks, 'categories' => $categories, 'content' => $page_content, 'title' => 'Дела в порядке!']);
 
