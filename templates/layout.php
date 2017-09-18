@@ -8,57 +8,65 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 
-<body class="<?php if (!empty($form)): ?>overlay<?php endif; ?>">
+<body class="<?php if (!empty($form) || !empty($guestContent)): ?>overlay<?php endif; ?><?php if (!$_SESSION['user']): ?> body-background<?php endif; ?>">
 
 <h1 class="visually-hidden">Дела в порядке</h1>
 
 <div class="page-wrapper">
-    <div class="container container--with-sidebar">
+    <div class="container<?php if ($_SESSION['user']): ?>container--with-sidebar<?php endif; ?>">
         <header class="main-header">
             <a href="#">
                 <img src="img/logo.png" width="153" height="42" alt="Логитип Дела в порядке">
             </a>
+            <?php if ($_SESSION['user']) : ?>
+                <div class="main-header__side">
+                    <a class="main-header__side-item button button--plus" href="/index.php<?php print "?add=1" ?>">Добавить
+                        задачу</a>
 
-            <div class="main-header__side">
-                <a class="main-header__side-item button button--plus" href="/index.php<?php print "?add=1"?>">Добавить задачу</a>
+                    <div class="main-header__side-item user-menu">
+                        <div class="user-menu__image">
+                            <img src="img/user-pic.jpg" width="40" height="40" alt="Пользователь">
+                        </div>
 
-                <div class="main-header__side-item user-menu">
-                    <div class="user-menu__image">
-                        <img src="img/user-pic.jpg" width="40" height="40" alt="Пользователь">
-                    </div>
+                        <div class="user-menu__data">
+                            <p><?php print (htmlspecialchars($_SESSION['user']['name'])) ?></p>
 
-                    <div class="user-menu__data">
-                        <p>Константин</p>
-
-                        <a href="#">Выйти</a>
+                            <a href="logout.php">Выйти</a>
+                        </div>
                     </div>
                 </div>
-            </div>
+            <?php else : ?>
+                <div class="main-header__side">
+                    <a class="main-header__side-item button button--transparent"
+                       href="/index.php<?php print ("?login=1") ?>">Войти</a>
+                </div>
+            <?php endif; ?>
         </header>
 
         <div class="content">
-            <section class="content__side">
-                <h2 class="content__side-heading">Проекты</h2>
+            <?php if ($_SESSION['user']) : ?>
+                <section class="content__side">
+                    <h2 class="content__side-heading">Проекты</h2>
 
-                <nav class="main-navigation">
-                    <ul class="main-navigation__list">
+                    <nav class="main-navigation">
+                        <ul class="main-navigation__list">
 
-                        <?php foreach ($categories as $key => $value): ?>
+                            <?php foreach ($categories as $key => $value): ?>
 
-                            <li class="main-navigation__list-item <?php if ($key == $_GET['category']): ?> main-navigation__list-item--active" <?php endif; ?>">
-                            <a class="main-navigation__list-item-link"
-                               href="/index.php<?= "?category=$key" ?>"><?= $value ?></a>
-                            <span class="main-navigation__list-item-count"><?= getCountTask($tasks, $value) ?></span>
-                            </li>
+                                <li class="main-navigation__list-item <?php if ($key == $_GET['category']): ?> main-navigation__list-item--active" <?php endif; ?>">
+                                <a class="main-navigation__list-item-link"
+                                   href="/index.php<?= "?category=$key" ?>"><?= $value ?></a>
+                                <span class="main-navigation__list-item-count"><?= getCountTask($tasks, $value) ?></span>
+                                </li>
 
-                        <?php endforeach; ?>
+                            <?php endforeach; ?>
 
-                    </ul>
-                </nav>
+                        </ul>
+                    </nav>
 
-                <a class="button button--transparent button--plus content__side-button" href="#">Добавить проект</a>
-            </section>
-
+                    <a class="button button--transparent button--plus content__side-button" href="#">Добавить проект</a>
+                </section>
+            <?php endif; ?>
             <main class="content__main">
                 <?= $content; ?>
             </main>
@@ -73,9 +81,9 @@
 
             <p>Веб-приложение для удобного ведения списка дел.</p>
         </div>
-
+        <?php if ($_SESSION['user']) : ?>
         <a class="main-footer__button button button--plus">Добавить задачу</a>
-
+        <?php endif ; ?>
         <div class="main-footer__social social">
             <span class="visually-hidden">Мы в соцсетях:</span>
             <a class="social__link social__link--facebook" href="#">Facebook
@@ -122,6 +130,7 @@
 </footer>
 
 <?= $form ?>
+<?= $guestContent ?>
 
 <script type="text/javascript" src="js/script.js"></script>
 </body>

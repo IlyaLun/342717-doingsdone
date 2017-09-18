@@ -1,4 +1,7 @@
 <?php
+
+session_start();
+
 // показывать или нет выполненные задачи
 $show_complete_tasks = rand(0, 1);
 
@@ -68,7 +71,7 @@ $tasks_list = [];
 
 $errors = [];
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
     if (!empty($_POST)) {
         $fields = [
             'task',
@@ -105,13 +108,46 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 require_once 'functions.php';
 
+require_once 'userdata.php';
 
 if (isset($_GET['add']) || !empty($errors)) {
     $form = renderTemplate('templates/form.php', ['categories' => $categories, 'form_error' => $errors]);
-}
-else {
+} else {
     $form = '';
 }
+
+$loginError = [];
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['send'])) {
+    $fields = [
+        'email',
+        'password'
+    ];
+    foreach ($fields as $field) {
+        if (empty($_POST[$field])) {
+            $loginError[] = $field;
+        } else {
+            if ($field == 'email' && !emailValidate($_POST[$field])) {
+                $loginError[] = $field;
+            }
+        }
+    }
+    if (empty($loginError)) {
+        $user = searchUserByEmail($_POST['email'], $users);
+        if (!empty($user) && password_verify($_POST['password'], $user['password'])) {
+            $_SESSION['user'] = $user;
+            header("Location: /index.php");
+        } else {
+            $loginError[] = 'password_verify';
+        }
+    }
+};
+
+if (($_GET['login'] == 1) || !empty($loginError)) {
+    $guestContent = renderTemplate('templates/guest_form.php', ['form_error' => $loginError]);
+} else {
+    $guestContent = '';
+};
 
 foreach ($tasks as $key => $value) {
     if ($categories[intval($_GET['category'])] == 'Все' || $categories[intval($_GET['category'])] == $value['category']) {
@@ -119,9 +155,13 @@ foreach ($tasks as $key => $value) {
     }
 }
 
-$page_content = renderTemplate('templates/index.php', ['tasks' => $tasks_list, 'categories' => $categories, 'show_complete_tasks' => $show_complete_tasks, 'current_ts' => $current_ts]);
+if ($_SESSION['user']) {
+    $page_content = renderTemplate('templates/index.php', ['tasks' => $tasks_list, 'categories' => $categories, 'show_complete_tasks' => $show_complete_tasks, 'current_ts' => $current_ts]);
+} else {
+    $page_content = renderTemplate('templates/guest.php', ['guestContent' => $guestContent]);
+}
 
-$layout_content = renderTemplate('templates/layout.php', ['form' => $form, 'tasks' => $tasks, 'categories' => $categories, 'content' => $page_content, 'title' => 'Дела в порядке!']);
+$layout_content = renderTemplate('templates/layout.php', ['user' => $user, 'guestContent' => $guestContent, 'form' => $form, 'tasks' => $tasks, 'categories' => $categories, 'content' => $page_content, 'title' => 'Дела в порядке!']);
 
 print ($layout_content);
 
