@@ -2,6 +2,8 @@
 
 require_once 'userdata.php';
 
+$show_complete_tasks = $_COOKIE['show_completed'];
+
 function getCountTask($list, $category)
 {
     $result = 0;

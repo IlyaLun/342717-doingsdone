@@ -106,6 +106,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
     }
 };
 
+if (isset($_GET["show_completed"])) {
+    $name = 'show_completed';
+    $value = $_GET["show_completed"];
+    $path = '/';
+    setcookie($name, $value, strtotime("+1 year"), $path);
+    header("Location: /index.php");
+}
+
 require_once 'functions.php';
 
 require_once 'userdata.php';
