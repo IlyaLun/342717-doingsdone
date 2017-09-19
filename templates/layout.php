@@ -13,7 +13,7 @@
 <h1 class="visually-hidden">Дела в порядке</h1>
 
 <div class="page-wrapper">
-    <div class="container<?php if ($_SESSION['user']): ?>container--with-sidebar<?php endif; ?>">
+    <div class="container <?php if ($_SESSION['user']): ?>container--with-sidebar<?php endif; ?>">
         <header class="main-header">
             <a href="#">
                 <img src="img/logo.png" width="153" height="42" alt="Логитип Дела в порядке">

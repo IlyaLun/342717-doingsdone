@@ -1,6 +1,6 @@
 <?php
 
-require_once('userdata.php');
+require_once 'userdata.php';
 
 function getCountTask($list, $category)
 {
@@ -42,13 +42,14 @@ function emailValidate($value)
 
 function searchUserByEmail($email, $users)
 {
-
+    $result = null;
     foreach ($users as $user) {
         if ($user['email'] == $email) {
-            return ($user);
+            $result = $user;
             break;
         }
     }
+    return $result;
 }
 
 ;
