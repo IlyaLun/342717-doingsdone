@@ -64,7 +64,7 @@
                         </ul>
                     </nav>
 
-                    <a class="button button--transparent button--plus content__side-button" href="#">Добавить проект</a>
+                    <a class="button button--transparent button--plus content__side-button" href="/index.php<?php print "?add=1" ?>">Добавить проект</a>
                 </section>
             <?php endif; ?>
             <main class="content__main">
