@@ -1,5 +1,9 @@
 <?php
 
+require_once 'userdata.php';
+
+$show_complete_tasks = $_COOKIE['show_completed'];
+
 function getCountTask($list, $category)
 {
     $result = 0;
@@ -30,5 +34,26 @@ function renderTemplate($templateDir, $templateData)
 
     }
 }
+
+function emailValidate($value)
+{
+    return filter_var($value, FILTER_VALIDATE_EMAIL);
+}
+
+;
+
+function searchUserByEmail($email, $users)
+{
+    $result = null;
+    foreach ($users as $user) {
+        if ($user['email'] == $email) {
+            $result = $user;
+            break;
+        }
+    }
+    return $result;
+}
+
+;
 
 ?>
