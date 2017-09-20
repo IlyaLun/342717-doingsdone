@@ -20,7 +20,7 @@
             </a>
             <?php if ($_SESSION['user']) : ?>
                 <div class="main-header__side">
-                    <a class="main-header__side-item button button--plus" href="/index.php<?php print "?add=1" ?>">Добавить
+                    <a class="main-header__side-item button button--plus" href="/index.php?add=1">Добавить
                         задачу</a>
 
                     <div class="main-header__side-item user-menu">
@@ -38,7 +38,7 @@
             <?php else : ?>
                 <div class="main-header__side">
                     <a class="main-header__side-item button button--transparent"
-                       href="/index.php<?php print ("?login=1") ?>">Войти</a>
+                       href="/index.php?login=1">Войти</a>
                 </div>
             <?php endif; ?>
         </header>
@@ -64,7 +64,7 @@
                         </ul>
                     </nav>
 
-                    <a class="button button--transparent button--plus content__side-button" href="/index.php<?php print "?add=1" ?>">Добавить проект</a>
+                    <a class="button button--transparent button--plus content__side-button" href="/index.php?add=1">Добавить проект</a>
                 </section>
             <?php endif; ?>
             <main class="content__main">
